@@ -1,0 +1,17 @@
+{
+  "name": "encurtador",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "sucrase-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "mongoose": "^6.3.0",
+    "sucrase": "*"
+  }
+}
