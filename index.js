@@ -19,7 +19,7 @@ async function setupRouter (list) {
   }
 }
 
-async function main() {
+export default async function main() {
   await mongoose.connect('mongodb+srv://florest:senha12345678@cluster0.gwzaf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true')
 
   const urlSchema = 
@@ -101,7 +101,3 @@ async function main() {
     router(req, res, next)
   })
 }
-
-main()
-
-app.listen(3000)
