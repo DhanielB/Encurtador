@@ -101,3 +101,5 @@ export default async function main() {
     router(req, res, next)
   })
 }
+
+app.listen(3000)
