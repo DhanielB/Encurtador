@@ -19,27 +19,26 @@ async function setupRouter (list) {
   }
 }
 
-async function main() {
-  await mongoose.connect('mongodb+srv://florest:senha12345678@cluster0.gwzaf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true')
+await mongoose.connect('mongodb+srv://florest:senha12345678@cluster0.gwzaf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority&useNewUrlParser=true&useUnifiedTopology=true')
 
-  const urlSchema = 
-  ({
-    "url": {
-      "type": String,
-      "require": true
-    },
-    "urlText": {
-      "type": String,
-      "require": true
-    }
-  })
+const urlSchema = 
+({
+  "url": {
+    "type": String,
+    "require": true
+  },
+  "urlText": {
+    "type": String,
+    "require": true
+  }
+})
   
-  mongoose.model('encurtador', urlSchema)
+mongoose.model('encurtador', urlSchema)
   
-  const shortUrl = mongoose.model('encurtador')
+const shortUrl = mongoose.model('encurtador')
 
-  app.get('/', (req, res) => {
-    res.send(`
+app.get('/', (req, res) => {
+  res.send(`
 <html>
   <head>
     <title>Encurte suas urls</title>
@@ -67,41 +66,38 @@ async function main() {
     </script>
   </body>
     `)
-  })
-  app.post('/', (req, res) => {
-    try {
-      var url = req.body.url
-      var urlText = req.body.urlText
-      
-      shortUrl({
-        url,
-        urlText
-      }).save()
-
-      .then(() => {
-        const shortUrls = shortUrl.find({}, async (err, response) => {
-          if(err) {
-            throw err
-          }
-          const response_confirm = await response
-          setupRouter(response_confirm)
-        })
-        res.json({messagem: 'Link criado com sucesso! https://encurtador.dhanielb.repl.co/'+urlText+'/'})
-      })
-
-      .catch((err) => {
-         res.json({erro: err})
-      })
-    }catch(err) {
-      res.json({erro: err})
-    }
-  })
-
-  app.use(function replaceableRouter (req, res, next) {
-    router(req, res, next)
-  })
-}
-
-app.listen(3000, () => {
-   main()
 })
+app.post('/', (req, res) => {
+  try {
+    var url = req.body.url
+    var urlText = req.body.urlText
+      
+    shortUrl({
+      url,
+      urlText
+    }).save()
+
+    .then(() => {
+      const shortUrls = shortUrl.find({}, async (err, response) => {
+        if(err) {
+          throw err
+        }
+        const response_confirm = await response
+        setupRouter(response_confirm)
+      })
+      res.json({messagem: 'Link criado com sucesso! https://encurtador.dhanielb.repl.co/'+urlText+'/'})
+    })
+
+    .catch((err) => {
+       res.json({erro: err})
+    })
+  }catch(err) {
+    res.json({erro: err})
+  }
+})
+
+app.use(function replaceableRouter (req, res, next) {
+  router(req, res, next)
+})
+
+app.listen(3000)
